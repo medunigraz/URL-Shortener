@@ -15,15 +15,11 @@
         <tr>
             <td><input name="{{url.srcUrl}}" type="checkbox" value="{{url.srcUrl}}"></td>
             <td>
-                <a href="{{ request.build_absolute_uri }}redirect/{{url.srcUrl}}">
-                    {{ request.build_absolute_uri }}redirect/{{url.srcUrl}}
-                </a>
+                <a href="{{ request.build_absolute_uri }}redirect/{{url.srcUrl}}">{{ request.build_absolute_uri }}redirect/{{url.srcUrl}}</a>
             </td>
             <td>{{url.dstUrl}}</td>
             <td>
-                <a href="detail/{{url.id}}">
-                    Bearbeiten
-                </a>
+                <a href="detail/{{url.id}}">Bearbeiten</a>
         </tr>
         {% endfor %}
     </table>

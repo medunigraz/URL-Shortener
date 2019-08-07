@@ -11,9 +11,7 @@
     {% csrf_token %}
     {{form}}
     <br>
-      <a class="btn btn-danger" href="{% url 'urlshortener:tableView' %}">
-        Abbrechen
-    </a>
     <input class="btn btn-primary" type="submit" value="Speichern">
+      <a class="btn btn-danger" href="{% url 'urlshortener:tableView' %}">Abbrechen</a>
 </form>
 {% endblock %}
