@@ -1,8 +1,9 @@
-from django.http import HttpResponse, HttpResponseForbidden
+from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404, render
 from django.template import loader
-from django.contrib import messages
 from guardian.shortcuts import get_objects_for_user, assign_perm
+
 from .models import RedirectUrl, RedirectUrlForm
 
 
@@ -43,8 +44,8 @@ def detail_view(request, **kwargs):
             dstUrl = form.cleaned_data['dstUrl']
             iid = form.cleaned_data.get('tmpId')
             obj, created = RedirectUrl.objects.update_or_create(id=iid,
-                                                 defaults={'srcUrl': srcUrl, 'dstUrl': dstUrl, 'user': request.user})
-            #"add_redirecturl","change_redirecturl","delete_redirecturl"
+                                                                defaults={'srcUrl': srcUrl, 'dstUrl': dstUrl,
+                                                                          'user': request.user})
             assign_perm("delete_redirecturl", request.user, obj)
             assign_perm("change_redirecturl", request.user, obj)
             assign_perm("add_redirecturl", request.user, obj)
@@ -55,7 +56,7 @@ def detail_view(request, **kwargs):
 
 def delete_view(request):
     if request.method == 'POST':
-        if len(request.POST) < 2:
+        if len(request.POST) <= 2:
             messages.warning(request, 'Bitte URLs auswählen', extra_tags='alert alert-primary')
         else:
             for i in list(request.POST.items())[1:-1]:
@@ -69,10 +70,9 @@ def delete_view(request):
 
 
 def table_view(request):
-
     if request.user.is_authenticated:
         template = loader.get_template('urlshortener/table.html')
-        urllist = get_objects_for_user(request.user,perms={"view_redirecturl"},klass=RedirectUrl,any_perm=True)
+        urllist = get_objects_for_user(request.user, perms={"view_redirecturl"}, klass=RedirectUrl, any_perm=True)
         context = {
             'urllist': urllist,
         }

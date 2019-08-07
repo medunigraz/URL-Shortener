@@ -15,8 +15,10 @@ class RedirectUrl(models.Model):
     srcUrl = models.CharField(max_length=400, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     dstUrl = models.CharField(max_length=400)
+
     class Meta:
         default_permissions = ('add', 'change', 'delete')
+
     def __str__(self):
         return self.srcUrl + " ---> " + self.dstUrl
 
@@ -30,7 +32,7 @@ class RedirectUrlForm(ModelForm):
                    'dstUrl': forms.TextInput(attrs={'class': 'form-control'})
                    }
         labels = {
-            'dstUrl':'Ziel URL',
+            'dstUrl': 'Ziel URL',
         }
 
     def clean(self):
