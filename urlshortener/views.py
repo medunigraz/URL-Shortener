@@ -16,7 +16,7 @@ def detail_view(request, **kwargs):
     if request.method == 'GET':
         if kwargs.get('id', None):
             redir = get_object_or_404(RedirectUrl, pk=kwargs.get('id', None))
-            if not request.user.has_perm('view_redirecturl', redir) or redir is None:
+            if not request.user.has_perm('change_redirecturl', redir) or redir is None:
                 messages.warning(request, 'Keine Berechtigung', extra_tags='alert alert-primary')
                 return redirect('urlshortener:tableView')
             form = RedirectUrlForm(None, initial={'srcUrl': redir.srcUrl, 'dstUrl': redir.dstUrl, 'tmpId': redir.id})
@@ -45,7 +45,6 @@ def detail_view(request, **kwargs):
             obj, created = RedirectUrl.objects.update_or_create(id=iid,
                                                  defaults={'srcUrl': srcUrl, 'dstUrl': dstUrl, 'user': request.user})
             #"add_redirecturl","change_redirecturl","delete_redirecturl"
-            assign_perm("view_redirecturl",request.user, obj)
             assign_perm("delete_redirecturl", request.user, obj)
             assign_perm("change_redirecturl", request.user, obj)
             assign_perm("add_redirecturl", request.user, obj)
