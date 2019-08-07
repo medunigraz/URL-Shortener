@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+{% block content %}
+
+{%if redirectUrl%}
+<h1><small>Ändere URL:
+    {{ redirectUrl.srcUrl }}</small></h1>
+{%else%}
+<h1>Eine Weiterleitungs-URL anlegen!</h1>
+{%endif%}
+<form action="{% url 'urlshortener:detailView' %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <br>
+    <input class="btn btn-primary" type="submit" value="Speichern">
+      <a class="btn btn-danger" href="{% url 'urlshortener:tableView' %}">Abbrechen</a>
+</form>
+{% endblock %}

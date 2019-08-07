@@ -1,0 +1,36 @@
+{% extends "./base.html" %}
+{% block content %}
+{% if urllist %}
+
+<form action="delete/" method="post">
+    {% csrf_token %}
+    <table class="table table-hover">
+        <tr>
+            <th scope="col">Auswählen</th>
+            <th scope="col">Quelle</th>
+            <th scope="col">Ziel</th>
+            <th scope="col">Aktion</th>
+        </tr>
+        {% for url in urllist %}
+        <tr>
+            <td><input name="{{url.srcUrl}}" type="checkbox" value="{{url.srcUrl}}"></td>
+            <td>
+                <a href="{{ request.build_absolute_uri }}redirect/{{url.srcUrl}}">{{ request.build_absolute_uri }}redirect/{{url.srcUrl}}</a>
+            </td>
+            <td>{{url.dstUrl}}</td>
+            <td>
+                <a href="detail/{{url.id}}">Bearbeiten</a>
+        </tr>
+        {% endfor %}
+    </table>
+    <input Value="Löschen" class="btn btn-danger" name="submit" type="submit"/>
+    <br>
+    <br>
+</form>
+{% else %}
+<p>Keine URLs vorhanden!</p>
+{% endif %}
+<a href="detail/" class="btn btn-secondary">
+   Eine Weiterleitungs-URL anlegen!
+</a>
+{% endblock %}
