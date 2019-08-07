@@ -42,13 +42,13 @@ def detail_view(request, **kwargs):
         if form.is_valid():
             srcUrl = form.cleaned_data['srcUrl']
             dstUrl = form.cleaned_data['dstUrl']
-            iid = form.cleaned_data.get('tmpId')
-            obj, created = RedirectUrl.objects.update_or_create(id=iid,
-                                                                defaults={'srcUrl': srcUrl, 'dstUrl': dstUrl,
-                                                                          'user': request.user})
+            tmpId = form.cleaned_data.get('tmpId')
+            obj, created = RedirectUrl.objects.update_or_create(id=tmpId,
+                                                                defaults={'srcUrl': srcUrl, 'dstUrl': dstUrl})
             assign_perm("delete_redirecturl", request.user, obj)
             assign_perm("change_redirecturl", request.user, obj)
             assign_perm("add_redirecturl", request.user, obj)
+            messages.warning(request, 'Erfolgreich angelegt!', extra_tags='alert alert-success')
             return redirect('urlshortener:tableView')
         else:
             return render(request, 'urlshortener/detail.html', {'form': form})

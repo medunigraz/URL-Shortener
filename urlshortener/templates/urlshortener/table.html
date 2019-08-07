@@ -28,12 +28,13 @@
         {% endfor %}
     </table>
     <input Value="Löschen" class="btn btn-danger" name="submit" type="submit"/>
+    <br>
+    <br>
 </form>
 {% else %}
 <p>Keine URLs vorhanden!</p>
 {% endif %}
-<br>
-<a href="detail/">
-    <button class="btn btn-secondary">Eine Weiterleitungs-URL anlegen!</button>
+<a href="detail/" class="btn btn-secondary">
+   Eine Weiterleitungs-URL anlegen!
 </a>
 {% endblock %}

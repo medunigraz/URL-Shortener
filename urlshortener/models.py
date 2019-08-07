@@ -13,7 +13,6 @@ class RedirectUrl(models.Model):
     id = models.AutoField(primary_key=True, )
     tmpId = models.IntegerField(null=True, blank=True)
     srcUrl = models.CharField(max_length=400, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     dstUrl = models.CharField(max_length=400)
 
     class Meta:
@@ -39,7 +38,7 @@ class RedirectUrlForm(ModelForm):
         super(RedirectUrlForm, self).clean()
         idstUrl = self.cleaned_data.get('dstUrl')
         isrcUrl = self.cleaned_data.get('srcUrl')
-        if not re.match('(?:http|ftp|https)://', idstUrl):
+        if not re.match('(?:http|https)://', idstUrl):
             self.cleaned_data['dstUrl'] = 'http://{}'.format(idstUrl)
         if not isrcUrl:
             self.cleaned_data['srcUrl'] = md5((idstUrl + str(datetime.datetime.now())).encode()).hexdigest()
